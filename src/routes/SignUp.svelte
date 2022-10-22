@@ -2,10 +2,23 @@
     import Button from '../components/Button.svelte'
     import Input from '../components/Input.svelte'
 
-    let username, password, email
+    const API_URL =process.env.API_URL;
+    let password= "", user_name = ""
 
-    function signup() {
-        
+    async function signup() {
+        try {
+            console.log(API_URL)
+            const response = (await fetch(`${API_URL}/user`, {
+                method:'POST',
+                body: JSON.stringify({"user_name": user_name, "password": password}),
+                headers: {
+                    "content-type": "application/json"
+                }
+            })).json();
+            console.log('response', response)
+        } catch (error) {
+            console.error('signup: %s', error)
+        }
     }
 </script>
 <form on:submit|preventDefault={signup} class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0">
@@ -14,7 +27,7 @@
             Create Email account
         </h2>
     </div>
-    <Input label="Email (example@sonofyahweh.foundation)" bind:value={email} type="email" required />
+    <Input label="Email (example@sonofyahweh.foundation)" bind:value={user_name} type="email" required />
     <Input label="Password" bind:value={password} type="password" required />
-    <Button>Create account</Button>
+    <Button on:click="{signup}" >Create account</Button>
 </form>

@@ -7,7 +7,7 @@
 
 
     function handleClick() {
-        openModal(ModalComponent, { title: "Terms of Service", message: "This is an alert using Svelte-Modal" })
+        openModal(ModalComponent, { title: "Terms of Service" })
     }
 </script>
 
